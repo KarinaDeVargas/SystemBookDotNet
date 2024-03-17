@@ -1,72 +1,88 @@
-﻿using System;
+﻿using BookSystem;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
-class Book
-{
-    public string Title { get; set; }
-    public int Pages { get; set; }
-    public int PublicationYear { get; set; }
-
-    public Book(string title, int pages, int publicationYear)
-    {
-        Title = title;
-        Pages = pages;
-        PublicationYear = publicationYear;
-    }
-
-    public override string ToString()
-    {
-        return $"{Title}, {Pages} pages, {PublicationYear}";
-    }
-}
-
 class Program
 {
+    private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
     static void Main(string[] args)
     {
-        List<Book> books = new List<Book>();
-
-        // Read book information from the user
-        while (true)
+        try
         {
-            Console.Write("Name: ");
-            string name = Console.ReadLine();
-            if (string.IsNullOrEmpty(name))
-                break;
-            Console.Write("Pages: ");
-            int pages = int.Parse(Console.ReadLine());
-            Console.Write("Publication year: ");
-            int year = int.Parse(Console.ReadLine());
-            books.Add(new Book(name, pages, year));
-        }
+            List<Book> books = new List<Book>();
 
-        // Write book information to a CSV file
-        using (StreamWriter writer = new StreamWriter("books.csv"))
-        {
-            foreach (Book book in books)
+            // Read book information from the user
+            while (true)
             {
-                writer.WriteLine($"{book.Title},{book.Pages},{book.PublicationYear}");
+                Console.Write("Name: ");
+                string name = Console.ReadLine();
+                if (string.IsNullOrEmpty(name))
+                    break; // "break" sends the process out of the "while" - stops the loop
+
+                Console.Write("Pages: ");
+                int pages = int.Parse(Console.ReadLine()); //parse to transform string to int (ReadLine is always string)
+
+                Console.Write("Publication year: ");
+                int year = int.Parse(Console.ReadLine());
+
+                books.Add(new Book(name, pages, year));
             }
-        }
 
-        // Read user preference for printing
-        Console.Write("What information will be printed? ");
-        string printType = Console.ReadLine();
-
-        // Print according to user preference
-        if (printType == "everything")
-        {
-            foreach (Book book in books)
+            foreach (var book in books)
             {
-                Console.WriteLine(book);
+                log.Info($"{book.Title}, {book.Pages}, {book.PublicationYear}");
+                log.Info("TESTE KARINA e FABIO");
+                log.Debug("Book TESTE: " + book);
             }
-        }
-        else if (printType == "title")
-        {
-            foreach (Book book in books)
+
+            // Save the books information to a CSV file
+            using (StreamWriter writer = new StreamWriter("../../books.csv"))
             {
-                Console.WriteLine(book.Title);
+                foreach (Book book in books)
+                {
+                    writer.WriteLine($"{book.Title},{book.Pages},{book.PublicationYear}");
+                }
+            }
+
+            PrintBooks();
+
+            Console.ReadLine();
+        }
+        catch (Exception e)
+        {
+            log.Error("Error: " + e.Message);
+        }
+    }
+
+    private static void PrintBooks()
+    {
+        // Read book information from the CSV file and print the information
+        using (StreamReader reader = new StreamReader("../../books.csv"))
+        {
+            string line;
+            
+            // Read user preference for printing
+            Console.Write("What information will be printed? ");
+            string printType = Console.ReadLine();
+
+            while ((line = reader.ReadLine()) != null)
+            {
+                string[] parts = line.Split(',');
+                string title = parts[0];
+                int pages = int.Parse(parts[1]);
+                int publicationYear = int.Parse(parts[2]);
+
+                // Print according to user preference
+                if (printType.ToLower() == "everything")
+                {
+                    Console.WriteLine($"{title}, {pages} pages, {publicationYear}");
+                }
+                else if (printType.ToLower() == "title")
+                {
+                    Console.WriteLine($"{title}");
+                }
             }
         }
     }
