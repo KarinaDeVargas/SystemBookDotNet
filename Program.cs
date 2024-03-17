@@ -30,11 +30,6 @@ class Program
                 books.Add(new Book(name, pages, year));
             }
 
-            foreach (var book in books)
-            {
-                log.Info($"{book.Title}, {book.Pages}, {book.PublicationYear}");
-            }
-
             // Save the books information to a CSV file
             using (StreamWriter writer = new StreamWriter("../../books.csv"))
             {
@@ -45,6 +40,12 @@ class Program
             }
 
             PrintBooks();
+            Console.ReadLine();
+
+            foreach (var book in books)
+            {
+                log.Info($"Was added the following book: {book.Title}, {book.Pages}, {book.PublicationYear}");
+            }
 
             Console.ReadLine();
         }
