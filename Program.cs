@@ -33,8 +33,6 @@ class Program
             foreach (var book in books)
             {
                 log.Info($"{book.Title}, {book.Pages}, {book.PublicationYear}");
-                log.Info("TESTE KARINA e FABIO");
-                log.Debug("Book TESTE: " + book);
             }
 
             // Save the books information to a CSV file

@@ -57,7 +57,7 @@
             <code lang="XML" escaped="true">
             <appender name="AdoNetAppender_SqlServer" type="log4net.Appender.AdoNetAppender" >
               <connectionType value="System.Data.SqlClient.SqlConnection, System.Data, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-              <connectionString value="data source=SQLSVR;initial catalog=test_log4net;integrated security=false;persist security info=True;" />
+              <connectionString value="data source=SQLSVR;initial catalog=test_log4net;integrated security=false;persist security info=True;User ID=sa;Password=sa" />
               <commandText value="INSERT INTO Log ([Date],[Thread],[Level],[Logger],[Message]) VALUES (@log_date, @thread, @log_level, @logger, @message)" />
               <parameter>
                 <parameterName value="@log_date" />
@@ -3828,85 +3828,6 @@
             Disposes all resources that were initialized by this locking model.
             </summary>
         </member>
-        <member name="T:log4net.Appender.FileAppender.NoLock">
-            <summary>
-            Hold no lock on the output file
-            </summary>
-            <remarks>
-            <para>
-            Open the file once and hold it open until <see cref="M:log4net.Appender.FileAppender.NoLock.CloseFile"/> is called. 
-            Maintains no lock on the file during this time.
-            </para>
-            </remarks>
-        </member>
-        <member name="M:log4net.Appender.FileAppender.NoLock.OpenFile(System.String,System.Boolean,System.Text.Encoding)">
-            <summary>
-            Open the file specified and prepare for logging.
-            </summary>
-            <param name="filename">The filename to use</param>
-            <param name="append">Whether to append to the file, or overwrite</param>
-            <param name="encoding">The encoding to use</param>
-            <remarks>
-            <para>
-            Open the file specified and prepare for logging. 
-            No writes will be made until <see cref="M:log4net.Appender.FileAppender.NoLock.AcquireLock"/> is called.
-            Must be called before any calls to <see cref="M:log4net.Appender.FileAppender.NoLock.AcquireLock"/>,
-            <see cref="M:log4net.Appender.FileAppender.NoLock.ReleaseLock"/> and <see cref="M:log4net.Appender.FileAppender.NoLock.CloseFile"/>.
-            </para>
-            </remarks>
-        </member>
-        <member name="M:log4net.Appender.FileAppender.NoLock.CloseFile">
-            <summary>
-            Close the file
-            </summary>
-            <remarks>
-            <para>
-            Close the file. No further writes will be made.
-            </para>
-            </remarks>
-        </member>
-        <member name="M:log4net.Appender.FileAppender.NoLock.AcquireLock">
-            <summary>
-            Acquire the lock on the file
-            </summary>
-            <returns>A stream that is ready to be written to.</returns>
-            <remarks>
-            <para>
-            Does nothing. The lock is already taken
-            </para>
-            </remarks>
-        </member>
-        <member name="M:log4net.Appender.FileAppender.NoLock.ReleaseLock">
-            <summary>
-            Release the lock on the file
-            </summary>
-            <remarks>
-            <para>
-            Does nothing. The lock will be released when the file is closed.
-            </para>
-            </remarks>
-        </member>
-        <member name="M:log4net.Appender.FileAppender.NoLock.ActivateOptions">
-            <summary>
-            Initializes all resources used by this locking model.
-            </summary>
-        </member>
-        <member name="M:log4net.Appender.FileAppender.NoLock.OnClose">
-            <summary>
-            Disposes all resources that were initialized by this locking model.
-            </summary>
-        </member>
-        <member name="F:log4net.Appender.FileAppender.defaultLockingModelType">
-            <summary>
-            Default locking model (when no locking model was configured)
-            </summary>
-        </member>
-        <member name="M:log4net.Appender.FileAppender.SetDefaultLockingModelType``1">
-            <summary>
-            Specify default locking model
-            </summary>
-            <typeparam name="TLockingModel">Type of LockingModel</typeparam>
-        </member>
         <member name="M:log4net.Appender.FileAppender.#ctor">
             <summary>
             Default constructor
@@ -5854,14 +5775,6 @@
             The format of the output will depend on the appender's layout.
             </para>
             </remarks>
-        </member>
-        <member name="M:log4net.Appender.RemoteSyslogAppender.AppendMessage(System.String,System.Int32@,System.Text.StringBuilder)">
-            <summary>
-            Appends the rendered message to the buffer
-            </summary>
-            <param name="message">rendered message</param>
-            <param name="characterIndex">index of the current character in the message</param>
-            <param name="builder">buffer</param>
         </member>
         <member name="M:log4net.Appender.RemoteSyslogAppender.ActivateOptions">
             <summary>
@@ -27091,18 +27004,6 @@
             </code>
             </example>
         </member>
-        <member name="M:log4net.Util.LogicalThreadContextStack.Peek">
-            <summary>
-            Returns the top context from this stack.
-            </summary>
-            <returns>The message in the context from the top of this stack.</returns>
-            <remarks>
-            <para>
-            Returns the top context from this stack. If this stack is empty then an
-            empty string (not <see langword="null"/>) is returned.
-            </para>
-            </remarks>
-        </member>
         <member name="M:log4net.Util.LogicalThreadContextStack.GetFullMessage">
             <summary>
             Gets the current context information for this stack.
@@ -31392,18 +31293,6 @@
             }
             </code>
             </example>
-        </member>
-        <member name="M:log4net.Util.ThreadContextStack.Peek">
-            <summary>
-            Returns the top context from this stack.
-            </summary>
-            <returns>The message in the context from the top of this stack.</returns>
-            <remarks>
-            <para>
-            Returns the top context from this stack. If this stack is empty then an
-            empty string (not <see langword="null"/>) is returned.
-            </para>
-            </remarks>
         </member>
         <member name="M:log4net.Util.ThreadContextStack.GetFullMessage">
             <summary>
